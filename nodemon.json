@@ -1,0 +1,7 @@
+{
+  "env": {
+    "MONGO_USER": "admin",
+    "MONGO_PASSWORD": "uNHn9rNiyoRHfFcw",
+    "MONGO_DATABASE": "plenty-react-api"
+  }
+}
