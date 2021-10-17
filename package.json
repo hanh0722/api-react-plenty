@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "MONGO_USER=admin MONGO_PASSWORD=uNHn9rNiyoRHfFcw MONGO_DATABASE=plenty-react-api node app.js",
+    "start": "EMAIL_SENDER=ANHNDH.B19CN022@stu.ptit.edu.vn SENDGRID_KEY={ADD KEY} MONGO_USER=admin MONGO_PASSWORD=uNHn9rNiyoRHfFcw MONGO_DATABASE=plenty-react-api node app.js",
     "start-dev": "nodemon app.js"
   },
   "keywords": [],
