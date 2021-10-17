@@ -1,20 +1,12 @@
-const transporter = require("nodemailer-sendgrid-transport");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
-const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
+const mailer = require('../util/node-mailer');
 const User = require("../models/User");
 const key = require("../util/Keys");
 const errorHandling = require("../util/Error");
 const throwError = require("../util/ThrowError");
-const options = {
-  auth: {
-    api_key:
-      "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",
-  },
-};
-const mailer = nodemailer.createTransport(transporter(options));
 
 exports.postRegister = async (req, res, next) => {
   const { name, email, password, phone } = req.body;
@@ -54,7 +46,7 @@ exports.postRegister = async (req, res, next) => {
       const result = await user.save();
       const sendingEmailToUser = {
         to: email,
-        from: "ANHNDH.B19CN022@stu.ptit.edu.vn",
+        from: process.env.EMAIL_SENDER,
         subject: "Verify your account",
         html: `<div><h1 style="text-align: center">Thank you for register account in our store</h1>
                 <p>Four number to verify: <span style="font-size: 22px; font-weight: bold;">${generateNumber}</span>
@@ -88,9 +80,9 @@ exports.postSignIn = async (req, res, next) => {
     }
     if (user && !user.verify.verified) {
       return res.status(401).json({
-        message: 'User is not authenticated with email',
+        message: "User is not authenticated with email",
         code: 401,
-        _id: user._id.toString()
+        _id: user._id.toString(),
       });
     }
     const isEqualPassword = await bcrypt.compare(password, user.password);

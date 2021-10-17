@@ -2,6 +2,9 @@
   "env": {
     "MONGO_USER": "admin",
     "MONGO_PASSWORD": "uNHn9rNiyoRHfFcw",
-    "MONGO_DATABASE": "plenty-react-api"
+    "MONGO_DATABASE": "plenty-react-api",
+    "SENDGRID_KEY": "{ADD KEY}",
+    "EMAIL_SENDER": "ANHNDH.B19CN022@stu.ptit.edu.vn"
   }
 }
+
