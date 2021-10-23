@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
 const mailer = require("../util/node-mailer");
 const User = require("../models/User");
@@ -89,7 +89,7 @@ exports.postResetPassword = async (req, res, next) => {
 };
 exports.getValidateUserReset = async (req, res, next) => {
   const { uidt } = req.query;
-  const {token} = req.params;
+  const { token } = req.params;
   if (!uidt || !token) {
     return res.status(400).json({
       message: "User is not defined",
@@ -144,9 +144,9 @@ exports.postChangePassword = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(408).json({
-      message: 'user information is not credential',
-      code: 408
-    })
+      message: "user information is not credential",
+      code: 408,
+    });
   }
   const { password, _id, token } = req.body;
   try {
@@ -155,8 +155,8 @@ exports.postChangePassword = async (req, res, next) => {
       tokenReset: token,
       tokenExpiration: { $gt: Date.now() },
     });
-    if(!user){
-      throwError('url is expired', 408);
+    if (!user) {
+      throwError("url is expired", 408);
     }
     const hash = await bcrypt.hash(password, 12);
     user.password = hash;
@@ -164,11 +164,10 @@ exports.postChangePassword = async (req, res, next) => {
     user.tokenExpiration = undefined;
     await user.save();
     res.json({
-      message: 'changed password successfully',
-      code: 200
-    })
+      message: "changed password successfully",
+      code: 200,
+    });
   } catch (err) {
     nextError(err, next);
   }
 };
-

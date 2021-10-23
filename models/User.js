@@ -17,9 +17,15 @@ const userSchema = new Schema({
   },
   cart: [
     {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: "product",
+      productId: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: "product",
+      },
+      quantity: {
+        type: Number,
+        required: true,
+      },
     },
   ],
   avatar: {
@@ -52,4 +58,28 @@ const userSchema = new Schema({
   },
 });
 
+userSchema.methods.addToCartById = function (productId, value) {
+  const isExistedInCart = this.cart.findIndex(
+    (pId) => pId.productId.toString() === productId.toString()
+  );
+  let newCart;
+  if (isExistedInCart <= -1) {
+    // not existed;
+    newCart = [
+      ...this.cart,
+      {
+        productId: productId,
+        quantity: value,
+      },
+    ];
+  } else {
+    // existed
+    const cloneCart = [...this.cart];
+    cloneCart[isExistedInCart].quantity =
+      cloneCart[isExistedInCart].quantity + value;
+    newCart = cloneCart;
+  }
+  this.cart = newCart;
+  return this.save();
+};
 module.exports = mongoose.model("user", userSchema);
